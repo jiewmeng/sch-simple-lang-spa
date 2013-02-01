@@ -2,9 +2,9 @@
 
 A personal try for a school project. The aim is to create a SPA that analyzes a SIMPLE (simplified programming language) program. 
 
-**NOTE: ** There are probably much better tools to analyze a program than this, ... its a school project after all (for a software engineering module, feels much like a programming language module tho ...)
+**NOTE:** There are probably much better tools to analyze a program than this, ... its a school project after all (for a software engineering module, feels much like a programming language module tho ...)
 
-For the project, we are supposed to use Visual C/C++ 2010 (not even the latest 2012 which is already available) ... here, I will use probably C++11 (compiled with `g++`) or Python (maybe even JavaScript?)
+For the project, we are supposed to use Visual C/C++ 2010 (not even the latest 2012 which is already available) ... here, I will use [CoffeeScript][coffeescript] (JavaScript precompiler) with [PEG.js][pegjs] as a parsing library
 
 ## SIMPLE Syntax
 
@@ -133,14 +133,14 @@ Unless otherwise stated:
 #### Modifies
 
 - `Modifies(a, v)` if `v` appears on LHS of `a`
-- `Modifies(s, v)` where `s` is a container statement (`if | while`) holds if theres a statement `s1` such that `Modifies(s1, a)` holds
+- `Modifies(s, v)` where `s` is a container statement (`if | while`) holds if theres a statement `s1` such that `Modifies(s1, v)` holds
 - `Modifies(p, v)` if theres a `s` in `p` or in `p1` called directly/indirectly such that `Modifies(s, v)` holds
 - If `s` is a procedure call, its defined the same as `Modifies(p, v)` 
 
 #### Uses
 
 - `Uses(a, v)` if `v` appears on RHS of `a`
-- `Uses(s, v)` where `s` is a container statement (`if | while`) holds if `v` is used as a control variable or theres a statement `s1` such that `Uses(s1, a)` holds
+- `Uses(s, v)` where `s` is a container statement (`if | while`) holds if `v` is used as a control variable or theres a statement `s1` such that `Uses(s1, v)` holds
 - `Uses(p, v)` if theres a `s` in `p` or in `p1` called directly/indirectly such that `Uses(s, v)` holds
 - If `s` is a procedure call, its defined the same as `Uses(p, v)`
 
@@ -178,3 +178,9 @@ Unless otherwise stated:
 - `Affects*(a1, a2)` if 
 	- `Affects(a1, a2)` OR
 	- `Affects(a1, a)` AND `Affects*(a, a2)`
+
+
+
+
+[coffeescript]: http://coffeescript.org/
+[pegjs]: http://pegjs.majda.cz/
