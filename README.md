@@ -83,9 +83,11 @@ The query language (similar to SQL) for developers to query/learn more about the
 	pattern-cl        'pattern' patternCond
 	  
 	attrCond          attrCompare ('and' attrCompare)*
-	attrCompare       attrRef '=' ref
+	attrCompare       ref '=' ref
+	                  // LHS and RHS should have same type (eg. INTEGER)
 	attrRef           synonym '.' attrName
-	ref               '"' IDENT '"' | INTEGER | attrRef
+	ref               attrRef | synonym | '"' IDENT '"' | INTEGER
+	                  // synonym should be of type `prog_line`
 	  
 	relCond           relRef ('and' relRef)*
 	relRef            ModifiesP | ModifiesS | UsesP | UsesS | Calls | 
