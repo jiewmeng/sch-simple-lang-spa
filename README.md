@@ -149,7 +149,6 @@ Unless otherwise stated:
 #### Parent 
 
 - `Parent(s1, s2)` if `s2` is directly nested inside `s1`
-	- `s1, s2` must be container statements
 - `Parent*(s1, s2)` if 
 	- `Parent(s1, s2)` OR
 	- `Parent(s1, s)` AND `Parent*(s, s2)`
@@ -157,7 +156,6 @@ Unless otherwise stated:
 #### Follows 
 
 - `Follows(s1, s2)` if `s2` appears directly after `s1` in same nesting level
-	- `s1, s2` must be container statements
 - `Follows*(s1, s2)` if 
 	- `Follows(s1, s2)` OR
 	- `Follows(s1, s)` AND `Follows*(s, s2)`

@@ -1,0 +1,13 @@
+{
+	"name": "spa-simple-school",
+	"version": "0.0.1",
+	"author": "Jiew Meng <jiewmeng@gmail.com>",
+	"description": "A static program analyzer for a ficticious programming language, SIMPLE. A school project",
+	"dependencies": {
+		"pegjs": "0.7.x"
+	},
+	"license": "MIT",
+	"engines": {
+		"node": ">=0.10.4"
+	}
+}
