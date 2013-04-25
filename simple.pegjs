@@ -43,25 +43,70 @@ call
 = space* "call" space* procName:identifier space* ";"
 { return { type: "call", procName: procName } }
 
-operand
-= variable:identifier { return { type: "variable", name: variable } }
-/ constant:constant { return { type: "constant", value: constant } }
-
-operator
-= space* operator:[+\-*] space*
-{ return { type: "operator", value: operator } }
-
-constant
-= constant:[0-9]+
-{ return constant.join("") }
-
 expr
-= operand:operand subexpr:(operator operand)*
-{ 
-	var tmp = [];
-	tmp.push(operand); 
-	subexpr.forEach(function(item) { 
-		tmp= tmp.concat(item); 
-	}); 
-	return tmp;
+= additive
+
+additive
+= left:multiplicative _ tail:([+-] _ multiplicative)* 
+{
+  tail.forEach(function(value) {
+    // value[0] is sign
+    // value[2] is multiplicative rule result (our value)
+    left.push({ type: "operator", value: value[0] });
+    left = left.concat( value[2] );
+  });
+  return left;
 }
+
+multiplicative
+= left:unary _ tail:([*/%] _ unary)* 
+{
+  tail.forEach(function(value) {
+    // value[0] is sign
+    // value[2] is multiplicative rule result (our value)
+    left.push({ type: "operator", value: value[0] });
+    left = left.concat( value[2] );
+  });
+  if (left.length == 1) 
+    return left;
+  return [ left ];
+}
+
+unary
+= sign:[+-]? _ value:primary _ 
+{
+  var tmp = [];
+  if (sign) {
+    tmp.push({ type: "operator", value: sign }); 
+  } else if (value instanceof Array) {
+    return value;
+  }
+  tmp.push(value);
+  return tmp;
+}
+
+primary
+= integer
+/ variable
+/ "(" additive:additive ")" { return additive; }
+
+variable
+= variable:([a-zA-Z][a-zA-Z0-9]*)
+{ 
+  return {
+    type: "variable",
+    value: variable[0] + variable[1].join("")
+  };
+}
+
+integer "integer"
+= digits:[0-9]+ 
+{ 
+  return {
+    type: "integer",
+    value: digits.join("") 
+  };
+}
+
+_ "whitespace"
+= [ \n\r]*
